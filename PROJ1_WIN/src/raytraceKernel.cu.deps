@@ -243,9 +243,15 @@ D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\crtdefs.h
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\swprintf.inl
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\cuda.h
+<<<<<<< HEAD
 g:\github\project1-raytracer\src\sceneStructs.h
 g:\github\project1-raytracer\src\glm/glm.hpp
 g:\github\project1-raytracer\src\glm\core/_fixes.hpp
+=======
+f:\my documents\github\project1-raytracer\src\sceneStructs.h
+f:\my documents\github\project1-raytracer\src\glm/glm.hpp
+f:\my documents\github\project1-raytracer\src\glm\core/_fixes.hpp
+>>>>>>> 63c8b7ebeac9e1052a67072057a6fcb7146b7d54
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\climits
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cfloat
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\float.h
@@ -260,6 +266,7 @@ D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\crtdefs.h
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\xstddef
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstddef
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstdio
+<<<<<<< HEAD
 g:\github\project1-raytracer\src\glm\core/setup.hpp
 g:\github\project1-raytracer\src\glm\./core/_detail.hpp
 g:\github\project1-raytracer\src\glm\core\setup.hpp
@@ -366,6 +373,114 @@ g:\github\project1-raytracer\src\glm\./core/_swizzle.hpp
 g:\github\project1-raytracer\src\cudaMat4.h
 g:\github\project1-raytracer\src\glm/glm.hpp
 g:\github\project1-raytracer\src\glm\core/_fixes.hpp
+=======
+f:\my documents\github\project1-raytracer\src\glm\core/setup.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/_detail.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\setup.hpp
+D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cassert
+D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\assert.h
+D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\crtdefs.h
+f:\my documents\github\project1-raytracer\src\glm\./core/type.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_half.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_half.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_detail.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_float.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_half.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\setup.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_int.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\setup.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_detail.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_gentype.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_size.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec1.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_gentype.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_float.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_int.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_size.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_swizzle.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_swizzle_func.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec1.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec2.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_float.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_int.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_size.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_swizzle.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec2.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec3.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_float.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_int.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_size.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_swizzle.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec3.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec4.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_float.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_int.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_size.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_swizzle.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_vec4.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat2x2.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_gentype.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat2x2.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat2x3.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat2x3.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat2x4.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat2x4.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat3x2.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat3x2.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat3x3.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat3x3.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat3x4.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat3x4.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat4x2.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat4x2.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat4x3.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat4x3.inl
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat4x4.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\type_mat4x4.inl
+f:\my documents\github\project1-raytracer\src\glm\./core/func_trigonometric.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_trigonometric.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_vectorize.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/func_exponential.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_exponential.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_vectorize.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/func_common.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_fixes.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_common.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_vectorize.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/func_packing.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_packing.inl
+f:\my documents\github\project1-raytracer\src\glm\./core/func_geometric.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_geometric.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_vectorize.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/func_matrix.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_matrix.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_vectorize.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/func_vector_relational.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\_detail.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_vector_relational.inl
+f:\my documents\github\project1-raytracer\src\glm\./core/func_integer.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_integer.inl
+f:\my documents\github\project1-raytracer\src\glm\core\_vectorize.hpp
+f:\my documents\github\project1-raytracer\src\glm\./core/func_noise.hpp
+f:\my documents\github\project1-raytracer\src\glm\core\func_noise.inl
+f:\my documents\github\project1-raytracer\src\glm\./core/_swizzle.hpp
+f:\my documents\github\project1-raytracer\src\cudaMat4.h
+f:\my documents\github\project1-raytracer\src\glm/glm.hpp
+f:\my documents\github\project1-raytracer\src\glm\core/_fixes.hpp
+>>>>>>> 63c8b7ebeac9e1052a67072057a6fcb7146b7d54
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\cuda_runtime.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\cuda_runtime.h
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string
@@ -429,11 +544,19 @@ D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cerrno
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\errno.h
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\crtdefs.h
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\share.h
+<<<<<<< HEAD
 g:\github\project1-raytracer\src\glm/glm.hpp
 g:\github\project1-raytracer\src\glm\core/_fixes.hpp
 g:\github\project1-raytracer\src\utilities.h
 g:\github\project1-raytracer\src\glm/glm.hpp
 g:\github\project1-raytracer\src\glm\core/_fixes.hpp
+=======
+f:\my documents\github\project1-raytracer\src\glm/glm.hpp
+f:\my documents\github\project1-raytracer\src\glm\core/_fixes.hpp
+f:\my documents\github\project1-raytracer\src\utilities.h
+f:\my documents\github\project1-raytracer\src\glm/glm.hpp
+f:\my documents\github\project1-raytracer\src\glm\core/_fixes.hpp
+>>>>>>> 63c8b7ebeac9e1052a67072057a6fcb7146b7d54
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\algorithm
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\memory
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\intrin.h
@@ -527,8 +650,13 @@ D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\iterator
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\sstream
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\vector
 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\xfunctional
+<<<<<<< HEAD
 g:\github\project1-raytracer\src\cudaMat4.h
 g:\github\project1-raytracer\src\raytraceKernel.h
+=======
+f:\my documents\github\project1-raytracer\src\cudaMat4.h
+f:\my documents\github\project1-raytracer\src\raytraceKernel.h
+>>>>>>> 63c8b7ebeac9e1052a67072057a6fcb7146b7d54
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\thrust/random.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\thrust/detail/config.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\thrust/detail/config/config.h
@@ -576,6 +704,7 @@ C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\thrust/random/de
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\thrust/random/detail/normal_distribution.inl
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\math_constants.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\cuda.h
+<<<<<<< HEAD
 g:\github\project1-raytracer\src\sceneStructs.h
 C:/ProgramData/NVIDIA Corporation/CUDA Samples/v5.5/common/inc\helper_math.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\cuda_runtime.h
@@ -587,4 +716,17 @@ g:\github\project1-raytracer\src\glm\core/_fixes.hpp
 g:\github\project1-raytracer\src\utilities.h
 g:\github\project1-raytracer\src\interactions.h
 g:\github\project1-raytracer\src\intersections.h
+=======
+f:\my documents\github\project1-raytracer\src\sceneStructs.h
+C:/ProgramData/NVIDIA Corporation/CUDA Samples/v5.5/common/inc\helper_math.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.5\include\cuda_runtime.h
+f:\my documents\github\project1-raytracer\src\intersections.h
+f:\my documents\github\project1-raytracer\src\sceneStructs.h
+f:\my documents\github\project1-raytracer\src\cudaMat4.h
+f:\my documents\github\project1-raytracer\src\glm/glm.hpp
+f:\my documents\github\project1-raytracer\src\glm\core/_fixes.hpp
+f:\my documents\github\project1-raytracer\src\utilities.h
+f:\my documents\github\project1-raytracer\src\interactions.h
+f:\my documents\github\project1-raytracer\src\intersections.h
+>>>>>>> 63c8b7ebeac9e1052a67072057a6fcb7146b7d54
 C:/ProgramData/NVIDIA Corporation/CUDA Samples/v5.5/common/inc\helper_math.h
