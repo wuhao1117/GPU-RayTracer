@@ -116,7 +116,7 @@ EYE         0 4.5 12
 VIEW        0 0 -1
 UP          0 1 0
 
-OBJECT 0
+OBJECT 0  // floor
 cube
 material 0
 frame 0
@@ -124,7 +124,9 @@ TRANS       0 0 0
 ROTAT       0 0 90
 SCALE       .01 10 10 
 
-OBJECT 1
+
+
+OBJECT 1  // back
 cube
 material 0
 frame 0
@@ -132,7 +134,7 @@ TRANS       0 5 -5
 ROTAT       0 90 0
 SCALE       .01 10 10 
 
-OBJECT 2
+OBJECT 2  // ceiling
 cube
 material 0
 frame 0
@@ -140,17 +142,17 @@ TRANS       0 10 0
 ROTAT       0 0 90
 SCALE       .01 10 10
 
-OBJECT 3
+OBJECT 3  // left wall
 cube
-material 1
+material 1 // red diffuse
 frame 0
 TRANS       -5 5 0
 ROTAT       0 0 0
 SCALE       .01 10 10
 
-OBJECT 4
+OBJECT 4  // right wall
 cube
-material 2
+material 2  //green diffuse
 frame 0
 TRANS       5 5 0
 ROTAT       0 0 0
@@ -181,7 +183,7 @@ ROTAT       0 180 0
 SCALE       3 3 3
 
 
-OBJECT 8
+OBJECT 8  // light source
 cube
 material 8 
 frame 0
