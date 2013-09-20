@@ -64,7 +64,7 @@ SPECEX      0
 SPECRGB     1 1 1      
 REFL        0       
 REFR        1        
-REFRIOR     2.2       
+REFRIOR     2.2      
 SCATTER     0        
 ABSCOEFF    .02 5.1 5.7      
 RSCTCOEFF   13
@@ -160,7 +160,7 @@ SCALE       .01 10 10
 
 OBJECT 5
 sphere
-material 4 //white glossy
+material 5 //glass
 frame 0
 TRANS       0 2 0
 ROTAT       0 180 0
@@ -187,6 +187,6 @@ OBJECT 8  // light source
 cube
 material 8 
 frame 0
-TRANS       0 10 0
+TRANS       0 9.5 0
 ROTAT       0 0 90
 SCALE       .3 3 3

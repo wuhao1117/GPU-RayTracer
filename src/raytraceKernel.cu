@@ -6,6 +6,7 @@
 //       Yining Karl Li's TAKUA Render, a massively parallel pathtracing renderer: http://www.yiningkarlli.com
 
 #include <stdio.h>
+#include <time.h>
 #include <cuda.h>
 #include <cmath>
 #include "sceneStructs.h"
@@ -118,7 +119,6 @@ __host__ __device__ int rayIntersect(const ray& r, staticGeom* geoms, int number
 	for(int i = 0; i < numberOfGeoms; i++)
 	{
 		tempDistance = -1.0f;
-//		if(materials[geoms[i].materialid].emittance > 0.0f) continue; // do not test intesection with light source
 		if(geoms[i].type == GEOMTYPE::SPHERE){
 			tempDistance = sphereIntersectionTest(geoms[i], r, tempIntersctionPoint, tempIntersectionNormal);
 		}
@@ -144,7 +144,6 @@ __host__ __device__ bool ShadowRayUnblocked(glm::vec3 surfacePoint,glm::vec3 lig
 {
 //	printf("in shadow test\n");
 	glm::vec3 rayDir = glm::normalize(lightPosition - surfacePoint);
-//	ray shadowRay(surfacePoint + 0.01f * rayDir, rayDir); 
 	ray shadowRay;
 	shadowRay.origin = surfacePoint + 0.01f * rayDir;
 	shadowRay.direction = rayDir;
@@ -156,12 +155,12 @@ __host__ __device__ bool ShadowRayUnblocked(glm::vec3 surfacePoint,glm::vec3 lig
 //	printf("%f %f %f\n", shadowRay.origin.x, shadowRay.origin.y, shadowRay.origin.z);
 	int intersIndex = rayIntersect(shadowRay, geoms, numberOfGeoms, intersPoint, intersNormal, materials); 
 //	printf("%d", intersIndex);
-	if(intersIndex == -1) return false;
+	if(intersIndex == -1) return true;
 	else if(materials[geoms[intersIndex].materialid].emittance > 0.0f) return true;
 	else return false;
 
 }
-__host__ __device__ glm::vec3 raytraceRecursive(const ray &r, int depth, int maximumDepth, staticGeom* geoms, int numberOfGeoms, material* materials, int numberOfMaterials, light* lightSources, int numberOfLights){
+__host__ __device__ glm::vec3 raytraceRecursive(const ray &r, int iteration, float currentIndexOfRefraction, int depth, int maximumDepth, staticGeom* geoms, int numberOfGeoms, material* materials, int numberOfMaterials, light* lightSources, int numberOfLights){
 
 	glm::vec3 bgColor(0.0f);
 	glm::vec3 ambientColor(1.0f);
@@ -170,13 +169,14 @@ __host__ __device__ glm::vec3 raytraceRecursive(const ray &r, int depth, int max
 	float ka = 0.2f;
 
 
-/*
 	if(depth > maximumDepth)
-		return bgColor;*/
+		return bgColor;
 
 	// intersection test	
 	glm::vec3 intersectionPoint, intersectionNormal;
 	int intersIndex = rayIntersect(r, geoms, numberOfGeoms, intersectionPoint, intersectionNormal, materials);
+//	if(depth == 0)
+//	printf("%f %f %f\n", r.direction.x, r.direction.y, r.direction.z);
 //	printf("%f %f %f\n", intersectionPoint.x, intersectionPoint.y, intersectionPoint.z);
 //	printf("%d\n", intersIndex);
 	/*glm::vec3 intersectionPoint, intersectionNormal;
@@ -208,70 +208,84 @@ __host__ __device__ glm::vec3 raytraceRecursive(const ray &r, int depth, int max
 		}
 	}*/
 	
-
-
+//	printf("depth = %d:\n\n", depth);
 	if(intersIndex == -1) return bgColor;
 	else if(materials[geoms[intersIndex].materialid].emittance > 0.0f) // intersected with light source geometry
 		return materials[geoms[intersIndex].materialid].color;
 	else // intersected with actual geometry
 	{
-		returnColor = ka * ambientColor * materials[geoms[intersIndex].materialid].color;
+//		returnColor = ka * ambientColor * materials[geoms[intersIndex].materialid].color;
 
-		if(materials[geoms[intersIndex].materialid].hasReflective == 1)
+		if(/*iteration == 0 && */materials[geoms[intersIndex].materialid].hasRefractive == 1)
 		{
-			glm::vec3 reflDir = ReflectedRay(r.direction, intersectionNormal);
+			float nextIndexOfRefraction = 1.0f;
+			glm::vec3 refraDir;
+			if(abs(currentIndexOfRefraction - 1) < 0.00001f)  // current ray is in air
+			{
+				refraDir = refractedRay(r.direction, intersectionNormal, currentIndexOfRefraction, materials[geoms[intersIndex].materialid].indexOfRefraction, nextIndexOfRefraction);
+//				printf("in air %f\n", nextIndexOfRefraction);
+			}
+			else                                              // current ray is in glass
+			{
+				refraDir = refractedRay(r.direction, -intersectionNormal, currentIndexOfRefraction, 1.0f, nextIndexOfRefraction);
+//				printf("in glass, depth: %d\n", depth);
+				
+			}
+/*
+			if(depth == 1)
+			{*/
+				/*printf("intersection index: %d\n", intersIndex);
+				printf("incident direction: %f %f %f\n", r.direction.x, r.direction.y, r.direction.z);
+				printf("refration direction: %f %f %f\n", refraDir.x, refraDir.y, refraDir.z);
+				printf("intersectionPoint: %f %f %f\n", intersectionPoint.x, intersectionPoint.y, intersectionPoint.z);
+				printf("intersectionNormal: %f %f %f\n", intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);			
+				printf("currentIndexOfRefraction: %f, nextIndexOfRefraction: %f\n\n", currentIndexOfRefraction, nextIndexOfRefraction);*/
+//			}
+			ray refraRay;
+			refraRay.origin = intersectionPoint + 0.01f * refraDir;
+			refraRay.direction = refraDir;
+			refraColor = raytraceRecursive(refraRay, iteration, nextIndexOfRefraction, depth + 1, maximumDepth, geoms, numberOfGeoms, materials, numberOfMaterials, lightSources, numberOfLights);
+//			return refraColor;
+		}
+		if(/*iteration == 0 && */materials[geoms[intersIndex].materialid].hasReflective == 1)
+		{
+			glm::vec3 reflDir = reflectedRay(r.direction, intersectionNormal);
 			ray reflRay;
 			reflRay.origin = intersectionPoint + 0.01f * reflDir;
 			reflRay.direction = reflDir;
-			reflColor = raytraceRecursive(reflRay, depth + 1, maximumDepth, geoms, numberOfGeoms, materials, numberOfMaterials, lightSources, numberOfLights);
+			reflColor = raytraceRecursive(reflRay, iteration, 1.0f, depth + 1, maximumDepth, geoms, numberOfGeoms, materials, numberOfMaterials, lightSources, numberOfLights);
 		}
-		if(materials[geoms[intersIndex].materialid].hasRefractive == 1)
-		{
-//				refraColor = bgColor;
-		}
-//		printf("before shadow test\n");
-		/*if(ShadowRayUnblocked(intersectionPoint, lightSources[0].position, geoms, numberOfGeoms, materials))
-		{
-		glm::vec3 L = glm::normalize(lightSources[0].position - intersectionPoint);
-//		if(abs(intersectionPoint.y) > 5.0f)
-//				printf("%f %f %f\n", intersectionPoint.x, intersectionPoint.y, intersectionPoint.z);
-				float dot1 = glm::clamp(glm::dot(intersectionNormal, L), 0.0f, 1.0f);
-//				printf("%f\n", dot1);
-				float dot2 = glm::dot(ReflectedRay(-L, intersectionNormal) ,-r.direction);
-				glm::vec3 diffuse = lightSources[0].color * 0.5f * materials[geoms[intersIndex].materialid].color * dot1;
-				returnColor = diffuse;
-		}
-	}*/
-		//printf("before shadow test\n");
-			for(int i = 0; i < numberOfLights; i++)
-			if(ShadowRayUnblocked(intersectionPoint, lightSources[i].position, geoms, numberOfGeoms, materials))
+
+/*
+		for(int i = 0; i < numberOfLights; i++)
+		{*/
+		if(iteration < numberOfLights)
+//			printf("%d\n", numberOfLights);
+			if(ShadowRayUnblocked(intersectionPoint, lightSources[iteration].position, geoms, numberOfGeoms, materials))
 			{
-//					printf("shadow ray not blocked\n");
-				glm::vec3 L = glm::normalize(lightSources[i].position - intersectionPoint);
-//				printf("%f %f %f\n", intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);
+	//					printf("shadow ray not blocked\n");
+				glm::vec3 L = glm::normalize(lightSources[iteration].position - intersectionPoint);
+	//				printf("%f %f %f\n", intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);
 				float dot1 = glm::clamp(glm::dot(intersectionNormal, L), 0.0f, 1.0f);
-//				printf("%f\n", dot1);
-				float dot2 = glm::dot(ReflectedRay(-L, intersectionNormal) ,-r.direction);
-				glm::vec3 diffuse = lightSources[i].color * 0.5f * materials[geoms[intersIndex].materialid].color * dot1;
+	//				printf("%f\n", dot1);
+				float dot2 = glm::dot(reflectedRay(-L, intersectionNormal) ,-r.direction);
+				glm::vec3 diffuse = lightSources[iteration].color * 0.5f * materials[geoms[intersIndex].materialid].color * dot1;
 				glm::vec3 specular;
 				if(abs(materials[geoms[intersIndex].materialid].specularExponent) > 1e-6)
-					specular = lightSources[i].color * 0.1f * pow(max(dot2, 0.0f), materials[geoms[intersIndex].materialid].specularExponent);
-				phongColor += diffuse + specular;
+					specular = lightSources[iteration].color * 0.1f * pow(max(dot2, 0.0f), materials[geoms[intersIndex].materialid].specularExponent);
+				phongColor +=  diffuse + specular;
 				
 			}
+//		}
 
-		returnColor += phongColor + 0.1f * reflColor + refraColor;
+		returnColor += (1.0f / numberOfLights) * (phongColor + 0.1f * (float)numberOfLights * reflColor + (float)numberOfLights * refraColor);
 	}
-
-
-
-	
 	return returnColor;
 }
 
 //TODO: IMPLEMENT THIS FUNCTION
 //Core raytracer kernel
-__global__ void raytracePrimary(glm::vec2 resolution, float time, cameraData cam, int rayDepth, glm::vec3* colors,
+__global__ void raytracePrimary(glm::vec2 resolution, int time, cameraData cam, int rayDepth, glm::vec3* colors,
                             staticGeom* geoms, int numberOfGeoms, material* materials, int numberOfMaterials, light* lightSources, int numberOfLights){
 
   int x = (blockIdx.x * blockDim.x) + threadIdx.x;
@@ -279,9 +293,12 @@ __global__ void raytracePrimary(glm::vec2 resolution, float time, cameraData cam
   int index = x + (y * resolution.x);
 
   if((x<=resolution.x && y<=resolution.y)){
+//	 if((x == 400 && y == 650)){
 	  ray r = raycastFromCameraKernel(resolution, time, x, y, cam.position, cam.view, cam.up, cam.fov);
 //    colors[index] = generateRandomNumberFromThread(resolution, time, x, y);
-	  colors[index] = raytraceRecursive(r, 0, rayDepth, geoms, numberOfGeoms, materials, numberOfMaterials, lightSources, numberOfLights);
+	  colors[index] += raytraceRecursive(r, time, 1.0f, 0, rayDepth, geoms, numberOfGeoms, materials, numberOfMaterials, lightSources, numberOfLights);
+//	  printf("%f %f %f\n", colors[index].x, colors[index].y, colors[index].z);
+
    }
 }
 
@@ -292,10 +309,10 @@ __global__ void raytracePrimary(glm::vec2 resolution, float time, cameraData cam
 void cudaRaytraceCore(uchar4* PBOpos, camera* renderCam, int frame, int iterations, material* materials, int numberOfMaterials, geom* geoms, int numberOfGeoms){
   // frame: current frame, objects and cam move between frames in multi-frame mode
   // iterations: curent iteration, objects and cam do not move between iterations
-  int traceDepth = 5; //determines how many bounces the raytracer traces
+  int traceDepth = 2; //determines how many bounces the raytracer traces
 
   // set up crucial magic
-  int tileSize = 8;
+  int tileSize = 16;
   dim3 threadsPerBlock(tileSize, tileSize);
   dim3 fullBlocksPerGrid((int)ceil(float(renderCam->resolution.x)/float(tileSize)), (int)ceil(float(renderCam->resolution.y)/float(tileSize)));
   
@@ -327,21 +344,30 @@ void cudaRaytraceCore(uchar4* PBOpos, camera* renderCam, int frame, int iteratio
   cudaMemcpy( cudamaterials, materials, numberOfMaterials*sizeof(material), cudaMemcpyHostToDevice);
 
   // generate light sources from light source geometry. Could be single point light or area light
-  int maxNumOfLightSources = numberOfGeoms;
+  int lightsPerGeom = 800;
+  int maxNumOfLightSources = numberOfGeoms * lightsPerGeom;
   light* lightSources = new light[maxNumOfLightSources];
   int numberOfLights = 0;
-  int j = 0;
   for(int i = 0; i < numberOfGeoms; ++i){
-	  if(materials[geoms[i].materialid].emittance > 0.0f)
-	  {	// generate point sources based on light source geometry		   
-		  lightSources[j].position = geomList[i].translation;
-		  lightSources[j].color = materials[geoms[i].materialid].color;
-		  lightSources[j].emittance = materials[geoms[i].materialid].emittance;
-		  ++numberOfLights;
-		  ++j;
+	  if(materials[geomList[i].materialid].emittance > 0.0f)
+	  {	// generate point sources based on light source geometry
+		  for(int k = 0; k < lightsPerGeom; k++)
+		  {
+			  glm::vec3 lightPos;
+			  if(geoms[i].type == GEOMTYPE::CUBE)
+				  lightPos = getRandomPointOnCube(geomList[i], k);
+			  else if(geoms[i].type == GEOMTYPE::SPHERE)
+				  lightPos = getRandomPointOnSphere(geomList[i], k);
+			  else continue;				
+			  lightSources[numberOfLights].position = lightPos;
+			  lightSources[numberOfLights].color = materials[geoms[i].materialid].color;
+			  lightSources[numberOfLights].emittance = materials[geoms[i].materialid].emittance;
+			  ++numberOfLights;
+		  }
 	  }
   }
-
+ /* for(int i = 0; i < numberOfLights; i++)
+	  printf("%f %f %f\n", lightSources[i].position.x, lightSources[i].position.y, lightSources[i].position.z);*/
   light* cudalights = NULL;
   cudaMalloc((void**)&cudalights, numberOfLights*sizeof(light));
   cudaMemcpy( cudalights, lightSources, numberOfLights*sizeof(light), cudaMemcpyHostToDevice);

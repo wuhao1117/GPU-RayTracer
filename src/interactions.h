@@ -103,12 +103,54 @@ __host__ __device__ int calculateBSDF(ray& r, glm::vec3 intersect, glm::vec3 nor
     return 1;
 };
 
-__host__ __device__ glm::vec3 ReflectedRay(const glm::vec3 &incidentDir, const glm::vec3 &surfaceNormal)
+__host__ __device__ glm::vec3 reflectedRay(const glm::vec3 &incidentDir, const glm::vec3 &surfaceNormal)
 {
 	glm::vec3 normal = glm::normalize(surfaceNormal);
 //	printf("%f %f %f\n", normal.x, normal.y, normal.z);
-	glm::vec3 Ref = incidentDir - 2.0f * normal * glm::dot(incidentDir, normal);
-	return Ref;
+	glm::vec3 refDirection = incidentDir - 2.0f * normal * glm::dot(incidentDir, normal);
+	return refDirection;
+}
+
+__host__ __device__ glm::vec3 refractedRay(const glm::vec3 &incidentDir, const glm::vec3 &surfaceNormal, const float refractionIndex1, const float refractionIndex2, float &nextIndexOfRefraction)
+{
+	glm::vec3 normal = glm::normalize(surfaceNormal);
+	glm::vec3 inDir = glm::normalize(incidentDir);
+	glm::vec3 refDirection = reflectedRay(inDir, surfaceNormal);	
+	glm::vec3 refraDirection;
+	float sinIncidentAngle = glm::length(glm::cross(inDir, surfaceNormal));
+//	printf("sinIncidentAngle: %f\n",sinIncidentAngle);
+	float transmitAngle;
+//	printf("refractionIndex1: %f refractionIndex2: %f\n", refractionIndex1, refractionIndex2);
+	//	printf("%f %f %f\n", normal.x, normal.y, normal.z);
+	if(refractionIndex1 < refractionIndex2) // from air to glass
+	{
+		transmitAngle = asin(refractionIndex1 / refractionIndex2 * sinIncidentAngle);
+		glm::vec3 tangentVec = inDir + refDirection;
+		refraDirection = tangentVec - glm::length(tangentVec) / tan(transmitAngle) * normal;
+		nextIndexOfRefraction = refractionIndex2;
+//		printf("refraDirection: %f %f %f\n", refraDirection.x, refraDirection.y, refraDirection.z);
+	}
+	else                                    // from glass to air
+	{
+//		printf("from glass to air\n");
+		float sinCriticalAngle = refractionIndex2 / refractionIndex1;
+//		printf("IncidentAngle: %f, CriticalAngle: %f\n", glm::degrees(asin(sinIncidentAngle)), glm::degrees(asin(sinCriticalAngle)));
+		if(sinIncidentAngle > sinCriticalAngle) 
+		{
+//			printf("internal reflection\n");
+			refraDirection =  refDirection;       //total internal reflection
+			nextIndexOfRefraction = refractionIndex1;
+		}
+		else
+		{
+			transmitAngle = asin(refractionIndex1 / refractionIndex2 * sinIncidentAngle);
+			glm::vec3 tangentVec = inDir + refDirection;
+			refraDirection = tangentVec - glm::length(tangentVec) / tan(transmitAngle) * normal;
+			nextIndexOfRefraction = refractionIndex2;
+		}
+	}
+//	printf("nextIndexOfRefraction: %f\n", nextIndexOfRefraction);
+	return refraDirection;
 }
 
 #endif
