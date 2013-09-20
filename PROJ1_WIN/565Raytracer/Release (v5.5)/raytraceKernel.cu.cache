@@ -7,15 +7,9 @@ AdditionalLibraryDirectories=
 AdditionalOptions=
 AdditionalOptions=
 CInterleavedPTX=false
-<<<<<<< HEAD
 CodeGeneration=compute_20,sm_20
 CodeGeneration=compute_20,sm_20
 CompileOut=G:\GitHub\Project1-RayTracer\PROJ1_WIN\565Raytracer\Win32/Release (v5.5)/raytraceKernel.cu.obj
-=======
-CodeGeneration=compute_10,sm_10
-CodeGeneration=compute_10,sm_10
-CompileOut=F:\My Documents\GitHub\Project1-RayTracer\PROJ1_WIN\565Raytracer\Win32/Release (v5.5)/raytraceKernel.cu.obj
->>>>>>> 63c8b7ebeac9e1052a67072057a6fcb7146b7d54
 CudaRuntime=Static
 CudaToolkitCustomDir=
 Defines=;WIN32;NDEBUG;_CONSOLE;_UNICODE;UNICODE;

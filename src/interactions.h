@@ -103,9 +103,10 @@ __host__ __device__ int calculateBSDF(ray& r, glm::vec3 intersect, glm::vec3 nor
     return 1;
 };
 
-__host__ __device__ glm::vec3 ReflectedRay(glm::vec3 incidentDir, glm::vec3 surfaceNormal)
+__host__ __device__ glm::vec3 ReflectedRay(const glm::vec3 &incidentDir, const glm::vec3 &surfaceNormal)
 {
 	glm::vec3 normal = glm::normalize(surfaceNormal);
+//	printf("%f %f %f\n", normal.x, normal.y, normal.z);
 	glm::vec3 Ref = incidentDir - 2.0f * normal * glm::dot(incidentDir, normal);
 	return Ref;
 }

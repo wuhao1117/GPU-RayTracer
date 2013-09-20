@@ -43,7 +43,7 @@ __host__ __device__ bool epsilonCheck(float a, float b){
 
 //Self explanatory
 __host__ __device__ glm::vec3 getPointOnRay(ray r, float t){
-  return r.origin + float(t-.0001)*glm::normalize(r.direction);
+  return r.origin + t*glm::normalize(r.direction);
 }
 
 //LOOK: This is a custom function for multiplying cudaMat4 4x4 matrixes with vectors.
@@ -79,29 +79,27 @@ __host__ __device__ glm::vec3 getSignOfRay(ray r){
 
 //TODO: IMPLEMENT THIS FUNCTION
 //Cube intersection test, return -1 if no intersection, otherwise, distance to intersection
-/*
 __host__ __device__ float boxIntersectionTest(staticGeom box, ray r, glm::vec3& intersectionPoint, glm::vec3& normal){
 
 	glm::vec3 bounds[2];
-	bounds[0] = glm::vec3(-0.5f); // unit cube in OS with unit length on each edge
-	bounds[1] = glm::vec3(0.5f);
+	bounds[0] = glm::vec3(-0.5f, -0.5f, -0.5f); // unit cube in OS with unit length on each edge
+	bounds[1] = glm::vec3(0.5f, 0.5f, 0.5f);
 	// transform the ray to object space
 	ray rOS;
 	rOS.origin = multiplyMV(box.inverseTransform, glm::vec4(r.origin, 1.0f));
 	rOS.direction = glm::normalize(multiplyMV(box.inverseTransform, glm::vec4(r.direction, 0.0f)));
 		
 	glm::vec3 invDirOfRay = getInverseDirectionOfRay(rOS);
-//	glm::vec3 signOfRay = getSignOfRay(rOS);
 	int signOfRay[3];
 	signOfRay[0] = (invDirOfRay.x < 0);
 	signOfRay[1] = (invDirOfRay.y < 0);
 	signOfRay[2] = (invDirOfRay.z < 0);
 
 	double tmin, tmax, tymin, tymax, tzmin, tzmax, t;
-	tmin = (bounds[(int)signOfRay[0]].x - rOS.origin.x) * invDirOfRay.x;
-	tmax = (bounds[1-(int)signOfRay[0]].x - rOS.origin.x) * invDirOfRay.x;
-	tymin = (bounds[(int)signOfRay[1]].y - rOS.origin.y) * invDirOfRay.y;
-	tymax = (bounds[1-(int)signOfRay[1]].y - rOS.origin.y) * invDirOfRay.y;
+	tmin = (bounds[signOfRay[0]].x - rOS.origin.x) * invDirOfRay.x;
+	tmax = (bounds[1-signOfRay[0]].x - rOS.origin.x) * invDirOfRay.x;
+	tymin = (bounds[signOfRay[1]].y - rOS.origin.y) * invDirOfRay.y;
+	tymax = (bounds[1-signOfRay[1]].y - rOS.origin.y) * invDirOfRay.y;
 
 	if ((tmin > tymax) || (tymin > tmax))
 		return -1.0f;
@@ -125,171 +123,102 @@ __host__ __device__ float boxIntersectionTest(staticGeom box, ray r, glm::vec3& 
 	
 	glm::vec3 intersectionPointOS = getPointOnRay(rOS, t);
 	intersectionPoint = multiplyMV(box.transform, glm::vec4(intersectionPointOS, 1.0f));
-
-	if(epsilonCheck(intersectionPointOS.x, bounds[0].x)) 
+//	printf("%f %f %f\n", normal.x, normal.y, normal.z);
+//	printf("%f %f\n", intersectionPointOS.x, bounds[0].x);
+	if(fabs(intersectionPointOS.x - bounds[0].x) < EPSILON) 
 		normal = glm::vec3(-1.0f, 0.0f, 0.0f);
-	else if(epsilonCheck(intersectionPointOS.x, bounds[1].x)) 
+	else if(fabs(intersectionPointOS.x - bounds[1].x) < EPSILON) 
 		normal = glm::vec3(1.0f, 0.0f, 0.0f);
-	else if(epsilonCheck(intersectionPointOS.y, bounds[0].y)) 
+	else if(fabs(intersectionPointOS.y - bounds[0].y) < EPSILON) 
 		normal = glm::vec3(0.0f, -1.0f, 0.0f);
-	else if(epsilonCheck(intersectionPointOS.y, bounds[1].y)) 
+	else if(fabs(intersectionPointOS.y - bounds[1].y) < EPSILON) 
 		normal = glm::vec3(0.0f, 1.0f, 0.0f);
-	else if(epsilonCheck(intersectionPointOS.z, bounds[0].z)) 
+	else if(fabs(intersectionPointOS.z - bounds[0].z) < EPSILON) 
 		normal = glm::vec3(0.0f, 0.0f, -1.0f);
-	else if(epsilonCheck(intersectionPointOS.z, bounds[1].z)) 
+	else if(fabs(intersectionPointOS.z - bounds[1].z) < EPSILON) 
 		normal = glm::vec3(0.0f, 0.0f, 1.0f);
 	else
 		std::cout<<"Box intersection test error!"<<std::endl;
-
-	cudaMat4 invTransMat = transposeMat(box.inverseTransform);
+	glm::vec3 normalTip = intersectionPointOS + normal;
+	glm::vec3 normalTipWS = multiplyMV(box.transform, glm::vec4(normalTip, 1.0f));
+//		normal = glm::vec3(1.0f, 1.0f, 1.0f);
+//	printf("%f %f %f\n", normalTipWS.x, normalTipWS.y, normalTipWS.z);
+//	cudaMat4 invTransMat = transposeMat(box.inverseTransform);
 //	cudaMat4 invTransMat = utilityCore::glmMat4ToCudaMat4(glm::inverse(utilityCore::cudaMat4ToGlmMat4(transposeMat(box.transform))));
-	normal = multiplyMV(invTransMat, glm::vec4(normal, 0.0f));
-	// normal = multiplyMV(box.transform, glm::vec4(normal, 0.0f));
+//	normal = multiplyMV(invTransMat, glm::vec4(normal, 0.0f));
+//	normal = glm::vec3(0.0f, 0.0f, 1.0f);
+	normal = glm::normalize(normalTipWS - intersectionPoint);
+//	float l = glm::length(normalTipWS - intersectionPoint);
+//    normal = multiplyMV(box.transform, glm::vec4(normal, 0.0f));
+//	printf("%f %f %f\n", normal.x, normal.y, normal.z);
 	
-
+//	printf("%f\n", l);
     return t;
-}*/
+}
+/*
 __host__ __device__ glm::vec3 getUnitBoxNommal(glm::vec3& p)
 
 {
-
 	glm::vec3 normal;
-
 	float eps = 1e-2;
-
 	if(abs(p.x - 0.5) < eps)
-
 		normal = glm::vec3(1,0,0);
-
 	else if(abs(p.x + 0.5) < eps){
-
 		normal = glm::vec3(-1,0,0);
-
 	}
-
 	else if(abs(p.y - 0.5) < eps){
-
 		normal = glm::vec3(0,1,0);
-
 	}
-
 	else if(abs(p.y + 0.5) < eps){
-
 		normal = glm::vec3(0,-1,0);		
-
 	}
-
 	else if(abs(p.z - 0.5) < eps){
-
 		normal = glm::vec3(0,0,1);
-
 	}
-
 	else if(abs(p.z + 0.5) < eps){
-
 		normal = glm::vec3(0,0,-1);
-
 	}
-
 	return normal;
-
 }
 __host__ __device__ bool rayBoxIntersect(ray r, float t[2])
 
 {
-
 	float t_min,t_max;
-
-
-
-
 	t[0] = -FLT_MAX;//t_near
-
-
-
-
 	t[1] = FLT_MAX;//t_far
-
-
-
-
 	glm::vec3 min_box = glm::vec3(-.5,-.5,-.5);
-
 	glm::vec3 max_box = glm::vec3(.5,.5,.5);
-
-
-
-
 	bool intersectFlag = true;
 
-
-
-
 	for(int i = 0;i<3;i++){
-
 		if(r.direction[i] == 0){
-
 			if(r.origin[i] < min_box[i] || r.origin[i] >max_box[i]){
-
 				intersectFlag = false;
-
 			}
-
 		}
-
 		else{
-
 			t_min = (min_box[i] - r.origin[i]) / r.direction[i];
-
 			t_max = (max_box[i] - r.origin[i]) / r.direction[i];
-
 			if(t_min > t_max){
-
 				float temp = t_min;
-
 				t_min = t_max;
-
 				t_max = temp;
-
 			}
-
 			if(t_min > t[0])
-
 				t[0] = t_min;
-
 			if(t_max < t[1])
-
 				t[1] = t_max;
-
 			if(t[0]>t[1]){				
-
 				intersectFlag = false;
-
 			}					
-
 			if(t[1]<0){				
-
 				intersectFlag = false;
-
 			}
-
 		}
-
 	}
-
 	return intersectFlag;
 
 }
-
-
-
-
-
-
-
-
-
-
 
 //TODO: IMPLEMENT THIS FUNCTION
 
@@ -297,84 +226,42 @@ __host__ __device__ bool rayBoxIntersect(ray r, float t[2])
 
 __host__ __device__ float boxIntersectionTest(staticGeom box, ray r, glm::vec3& intersectionPoint, glm::vec3& normal){
 
-
-
-
 	glm::vec3 ro = multiplyMV(box.inverseTransform, glm::vec4(r.origin,1.0f));
-
 	glm::vec3 rd = glm::normalize(multiplyMV(box.inverseTransform, glm::vec4(r.direction,0.0f)));
-
-
-
-
 	ray rt(ro, rd);// rt.origin = ro; rt.direction = rd;
 
-
-
-
 	float t[2] = {0};
-
 	bool isIntersect = rayBoxIntersect(rt, t);
 
-
-
-
 	float ti;
-
 	if(isIntersect)
-
 	{
-
 		if(t[0]<=0){
-
 			ti = t[1];
-
 		}
-
 		else
 
 			ti = t[0];
 
-
-
-
 		glm::vec3 realIntersectionPoint = multiplyMV(box.transform, glm::vec4(getPointOnRay(rt, ti), 1.0));
-
 		glm::vec3 realOrigin = multiplyMV(box.transform, glm::vec4(0,0,0,1));
-
-
-
-
 		glm::vec3 unitNormal = getUnitBoxNommal(getPointOnRay(rt, ti));
-
-
-
 		intersectionPoint = realIntersectionPoint;				
 
-
-
+/ *
 		glm::mat4 temp = utilityCore::cudaMat4ToGlmMat4(box.inverseTransform);
 
 		cudaMat4 temp2 = utilityCore::glmMat4ToCudaMat4(glm::transpose(temp));
 
-		normal = glm::normalize(multiplyMV(temp2, glm::vec4(unitNormal, 1)));
-
-
-
-
-		//normal = glm::normalize(multiplyMV(box.transform,  glm::vec4(unitNormal, 1)));
-
-
-
+		normal = glm::normalize(multiplyMV(temp2, glm::vec4(unitNormal, 1)));* /
+		normal = glm::normalize(multiplyMV(box.transform,  glm::vec4(unitNormal, 1)));
 		return glm::length(r.origin - realIntersectionPoint);
-
 	}
-
 	else
-
 		return -1;
 
 }
+*/
 
 //LOOK: Here's an intersection test example from a sphere. Now you just need to figure out cube and, optionally, triangle.
 //Sphere intersection test, return -1 if no intersection, otherwise, distance to intersection
@@ -385,7 +272,7 @@ __host__ __device__ float sphereIntersectionTest(staticGeom sphere, ray r, glm::
   glm::vec3 ro = multiplyMV(sphere.inverseTransform, glm::vec4(r.origin,1.0f));
   glm::vec3 rd = glm::normalize(multiplyMV(sphere.inverseTransform, glm::vec4(r.direction,0.0f))); 
 
-  ray rt(ro, rd); //rt.origin = ro; rt.direction = rd;
+  ray rt; rt.origin = ro; rt.direction = rd;
   
   float vDotDirection = glm::dot(rt.origin, rt.direction);
   float radicand = vDotDirection * vDotDirection - (glm::dot(rt.origin, rt.origin) - pow(radius, 2));
