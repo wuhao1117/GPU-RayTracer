@@ -32,7 +32,7 @@ SCREEN SHOTS AND VIDEOS
   ![ScreenShot](https://raw.github.com/wuhao1117/Project1-RayTracer/master/renders/MyRender.jpg)
 
 * Video
-
+  https://raw.github.com/wuhao1117/Project1-RayTracer/master/renders/GPU_raytracer.mp4
 -------------------------------------------------------------------------------
 HOW TO BUILD
 -------------------------------------------------------------------------------
