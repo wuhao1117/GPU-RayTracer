@@ -45,22 +45,22 @@ Tested sample scene with trace depth 2, all features enabled.
 
 
 * FPS under different block sizes
-   -block dimension = 8*8        : 43
-   -block dimension = 9*9        : 37
-   -block dimension = 10*10    : 37
-   -block dimension = 11*11    : 41
-   -block dimension = 12*12    : 38
-   -block dimension = 13*13    : 34
-   -block dimension = 14*14    : 36
-   -block dimension = 15*15    : 39
-   -block dimension = 16*16    : 43
-   -block dimension = 17*17    : 30
-   -block dimension = 18*18    : 32
-   -block dimension = 19*19    : 34
-   -block dimension = 20*20    : 36
-   -block dimension = 21*21    : 37
-   -block dimension = 22*22    : 40
-   -block dimension = 23*23    : kernel failed! too many resources requested for launch
+   - block dimension = 8*8        : 43
+   - block dimension = 9*9        : 37
+   - block dimension = 10*10    : 37
+   - block dimension = 11*11    : 41
+   - block dimension = 12*12    : 38
+   - block dimension = 13*13    : 34
+   - block dimension = 14*14    : 36
+   - block dimension = 15*15    : 39
+   - block dimension = 16*16    : 43
+   - block dimension = 17*17    : 30
+   - block dimension = 18*18    : 32
+   - block dimension = 19*19    : 34
+   - block dimension = 20*20    : 36
+   - block dimension = 21*21    : 37
+   - block dimension = 22*22    : 40
+   - block dimension >= 23*23    : kernel failed! too many resources requested for launch
 
 It seemes to me that program executes fastest when image size (800*800) is divisible by block size. 
 
