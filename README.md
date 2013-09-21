@@ -3,25 +3,23 @@ CIS565: Project 1: CUDA Raytracer
 -------------------------------------------------------------------------------
 Fall 2013
 -------------------------------------------------------------------------------
-Due Thursday, 09/19/2013
--------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
 PROJECT DESCRIPTION
 -------------------------------------------------------------------------------
 This is a GPU ray tracing program. Features implemented including:
 * Basic features
-	?Raycasting from a camera into a scene through a pixel grid
-	?Phong lighting for one point light source
-	?Diffuse lambertian surfaces
-	?Raytraced shadows
-	?Cube intersection testing
-	?Sphere surface point sampling
+	*Raycasting from a camera into a scene through a pixel grid
+	*Phong lighting for one point light source
+	*Diffuse lambertian surfaces
+	*Raytraced shadows
+	*Cube intersection testing
+	*Sphere surface point sampling
 
 * Additional features
-	?Specular reflection 
-	?Soft shadows and area lights 
-	?Refraction
+	*Specular reflection 
+	*Soft shadows and area lights 
+	*Refraction
 
 -------------------------------------------------------------------------------
 SCREEN SHOTS AND VIDEOS
@@ -43,26 +41,33 @@ HOW TO BUILD
 -------------------------------------------------------------------------------
 PERFORMANCE EVALUATION
 -------------------------------------------------------------------------------
-The performance evaluation is where you will investigate how to make your CUDA
-programs more efficient using the skills you've learned in class. You must have
-perform at least one experiment on your code to investigate the positive or
-negative effects on performance. 
+Tested sample scene with trace depth 2, all features enabled.
 
-One such experiment would be to investigate the performance increase involved 
-with adding a spatial data-structure to your scene data.
 
-Another idea could be looking at the change in timing between various block
-sizes.
+*FPS under different block sizes
+   block dimension = 8*8        : 43
+   block dimension = 9*9        : 37
+   block dimension = 10*10    : 37
+   block dimension = 11*11    : 41
+   block dimension = 12*12    : 38
+   block dimension = 13*13    : 34
+   block dimension = 14*14    : 36
+   block dimension = 15*15    : 39
+   block dimension = 16*16    : 43
+   block dimension = 17*17    : 30
+   block dimension = 18*18    : 32
+   block dimension = 19*19    : 34
+   block dimension = 20*20    : 36
+   block dimension = 21*21    : 37
+   block dimension = 22*22    : 40
+   block dimension = 23*23    : kernel failed! too many resources requested for launch
 
-A good metric to track would be number of rays per second, or frames per 
-second, or number of objects displayable at 60fps.
+It seemes to me that program executes fastest when image size (800*800) is divisible by block size. 
 
-We encourage you to get creative with your tweaks. Consider places in your code
-that could be considered bottlenecks and try to improve them. 
-
-Each student should provide no more than a one page summary of their
-optimizations along with tables and or graphs to visually explain and
-performance differences.
+ Test Bench:
+	* CPU: Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz
+	* GPU: GeForce GTX TITAN (6GB)
+	* Memory: 16GB
 
 -------------------------------------------------------------------------------
 THIRD PARTY CODE USED
@@ -70,7 +75,4 @@ THIRD PARTY CODE USED
 * An Efficient and Robust Ray¨CBox Intersection Algorithm, A. Williams, et al.  
   http://people.csail.mit.edu/amy/papers/box-jgt.pdf
 
--------------------------------------------------------------------------------
-SELF-GRADING
--------------------------------------------------------------------------------
 

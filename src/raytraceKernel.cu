@@ -312,7 +312,7 @@ void cudaRaytraceCore(uchar4* PBOpos, camera* renderCam, int frame, int iteratio
   int traceDepth = 2; //determines how many bounces the raytracer traces
 
   // set up crucial magic
-  int tileSize = 16;
+  int tileSize = 23;
   dim3 threadsPerBlock(tileSize, tileSize);
   dim3 fullBlocksPerGrid((int)ceil(float(renderCam->resolution.x)/float(tileSize)), (int)ceil(float(renderCam->resolution.y)/float(tileSize)));
   
