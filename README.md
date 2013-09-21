@@ -9,17 +9,17 @@ PROJECT DESCRIPTION
 -------------------------------------------------------------------------------
 This is a GPU ray tracing program. Features implemented including:
 * Basic features
-	*Raycasting from a camera into a scene through a pixel grid
-	*Phong lighting for one point light source
-	*Diffuse lambertian surfaces
-	*Raytraced shadows
-	*Cube intersection testing
-	*Sphere surface point sampling
+	- Raycasting from a camera into a scene through a pixel grid
+	- Phong lighting for one point light source
+	- Diffuse lambertian surfaces
+	- Raytraced shadows
+	- Cube intersection testing
+	- Sphere surface point sampling
 
 * Additional features
-	*Specular reflection 
-	*Soft shadows and area lights 
-	*Refraction
+	- Specular reflection 
+	- Soft shadows and area lights 
+	- Refraction
 
 -------------------------------------------------------------------------------
 SCREEN SHOTS AND VIDEOS
@@ -44,7 +44,7 @@ PERFORMANCE EVALUATION
 Tested sample scene with trace depth 2, all features enabled.
 
 
-*FPS under different block sizes
+* FPS under different block sizes
    block dimension = 8*8        : 43
    block dimension = 9*9        : 37
    block dimension = 10*10    : 37
@@ -64,7 +64,7 @@ Tested sample scene with trace depth 2, all features enabled.
 
 It seemes to me that program executes fastest when image size (800*800) is divisible by block size. 
 
- Test Bench:
+* Test Bench:
 	* CPU: Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz
 	* GPU: GeForce GTX TITAN (6GB)
 	* Memory: 16GB
