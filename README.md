@@ -27,7 +27,8 @@ This is a GPU ray tracing program. Features implemented including:
 SCREEN SHOTS AND VIDEOS
 -------------------------------------------------------------------------------
 * Project running
-
+  ![ScreenShot](https://raw.github.com/wuhao1117/Project1-RayTracer/master/renders/project running.jpg)
+	
 * Final renders
   ![ScreenShot](https://raw.github.com/wuhao1117/Project1-RayTracer/master/renders/MyRender.jpg)
 
