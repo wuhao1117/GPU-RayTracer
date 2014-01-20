@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
-CIS565: Project 1: CUDA Raytracer
+CUDA Raytracer
 -------------------------------------------------------------------------------
 Fall 2013
 -------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ It seemes to me that program executes fastest when image size (800*800) is divis
 -------------------------------------------------------------------------------
 THIRD PARTY CODE USED
 -------------------------------------------------------------------------------
-* An Efficient and Robust Ray¨CBox Intersection Algorithm, A. Williams, et al.  
+* An Efficient and Robust Rayâ€“Box Intersection Algorithm, A. Williams, et al.  
   http://people.csail.mit.edu/amy/papers/box-jgt.pdf
 
 
